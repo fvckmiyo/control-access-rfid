@@ -1,6 +1,6 @@
 #include <LiquidCrystal_I2C.h>
 #include <SPI.h>
-#include <MFRC522.5>
+#include <MFRC522.h>
 
 #define RST-PIN 9
 #define SS_PIN 10
@@ -10,8 +10,8 @@ byte a = 0;
 LiquidCrystal_I2C lcd(0×27, 16, 2);
 MFRC522 mfrc522(AA_PIN, RST_PIN);
 
-void setup() {
-Serian.begin (9600);
+void setup () {
+Serial.begin (9600);
 lcd.init();
 lcd.backlight();
 while (!Serial);
@@ -24,7 +24,7 @@ lcd,print ("insira a tag");
 }
 
 void loop() {
-if ( ! mfrc522.PICC_isNewCardPresent(0){
+if ( ! mfrc522.PICC_isNewCardPresent()){
 return 0;
 }
 if ( ! mfrc522.PICC_ReadCardSerial()){
