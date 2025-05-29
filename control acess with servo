@@ -5,7 +5,7 @@
 
 #define SS_PIN 10
 #define RST_PIN 9
-string UID = ""; // paste the uid generated in the previous schedule
+String UID = ""; // ctrl+v uid code
 byte lock = 0;
 
 Servo servo;
@@ -18,27 +18,29 @@ void setup () {
   lcd.init();
   lcd.backlight();
   servo.attach(3);
-  Spi.begin();
+  SPI.begin();
   rfid.PCD_Init();
 }
 
-void loop (0) {
+void loop () {
 lcd.setCursor (4, 0);
-lcd.print ("Seja bem-vindo!");
+lcd.print ("bem-vindo!");
 lcd.setCursor (1, 1);
-lcd.print ("aproxime a tag");
+lcd.print ("insira tag");
 
 if( ! rfid.PICC_IsNewCardPresent())
-  return
+  return;
 if( ! rfid.PICC_ReadCardSerial())
-  return
+  return;
 
 lcd.clear();
 lcd.setCursor(0, 0);
 lcd.print ("scaneando");
 Serial.print("uid tag:");
 String ID = "";
-for (byte i = 0; i < rfid.uid.size; i++) {
+for (byte i = 0; i < rfid.uid.size; i++) 
+
+{
 lcd.print(".");
 ID.concat(String(rfid.uid.uidByte[i] < 0×10 ? "0" : " "));
 ID.concat(String(rfid.uid.uidByte[i], HEX));
@@ -48,20 +50,20 @@ ID.toUpperCase();
 
 if (ID.substring(1) == UID && lock == 0 ) {
 servo.write(70);
-lcd.clear(0;
+lcd.clear();
 lcd.setCursor(0, 0);
 lcd.print ("cancela fechada");
 delay(1500);
 lcd.clear();
 lock = 1;
-} else if (ID.substring(1) == UID 77 lock == 1) {
+} else if (ID.substring(1) == UID && lock == 1) {
 servo.write(160);
 lcd.clear();
 lcd.setCursor(0, 0);
 lcd.print ("cancela liberada");
 delay(1500);
-LCD.CLEAR();
-LOCK = 0;
+lcd.clear();
+lock = 0;
 } else {
 lcd.clear();
 lcd.setCursor(0, 0);
